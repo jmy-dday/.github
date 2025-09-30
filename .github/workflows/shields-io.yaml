@@ -1,0 +1,29 @@
+name: Shields.io
+
+on:
+  schedule:
+    - cron: "1 15 * * *" # KST 00시 1분 (UTC+9)
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      GH_TOKEN:
+        required: true
+jobs:
+  shields-io:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set execute permission for script
+        run: chmod +x scripts/*.sh
+
+      - name: Update D-day
+        id: update-dday
+        run: |
+          scripts/hgoh.sh
+          scripts/hgkim.sh
+          scripts/shhwang.sh
+          scripts/jsyang.sh
